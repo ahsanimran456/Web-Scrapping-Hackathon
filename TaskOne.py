@@ -7,7 +7,7 @@ import csv
 
 # Chrome setup
 options = webdriver.ChromeOptions()
-# options.add_argument('--headless')  # Optional
+# options.add_argument('--headless') 
 options.add_argument('--disable-gpu')
 options.add_argument('--no-sandbox')
 
@@ -18,7 +18,6 @@ wait = WebDriverWait(driver, 20)
 # Track how many times "Load More" clicked
 click_count = 0
 
-# Keep loading more until button disappears
 while True:
     try:
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")

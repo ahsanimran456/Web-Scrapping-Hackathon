@@ -4,7 +4,7 @@ import time
 import pandas as pd
 
 URL = "https://sarmaaya.pk/mutual-funds/"
-WAIT_TIME = 3  # Adjust if needed, page load + table render time
+WAIT_TIME = 3  
 
 def start_browser():
     options = webdriver.ChromeOptions()
@@ -36,9 +36,8 @@ def click_next(driver):
         next_li = driver.find_element(By.ID, "funds-table_next")
         next_btn = next_li.find_element(By.TAG_NAME, "a")
 
-        # Scroll the "Next" button into view
         driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", next_btn)
-        time.sleep(1)  # brief pause after scroll
+        time.sleep(1) 
 
         # Check if disabled
         if "disabled" in next_li.get_attribute("class"):
@@ -64,7 +63,6 @@ def main():
         page_data = extract_visible_data(driver)
         all_data.extend(page_data)
 
-        # Try click next page
         if not click_next(driver):
             print("🚫 No more pages. Stopping.")
             break

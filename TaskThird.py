@@ -13,7 +13,6 @@ options.add_argument('--disable-gpu')
 driver = webdriver.Chrome(options=options)
 wait = WebDriverWait(driver, 15)
 
-# All desired fields including new ones
 desired_fields = [
     "Symbol",
     "Next report date",
@@ -32,7 +31,6 @@ desired_fields = [
     "Change (1Y)",
     "Revenue / Employee (1Y)",
     "Net income / Employee (1Y)",
-    # New fields
     "Sector",
     "Industry",
     "CEO",
@@ -42,17 +40,16 @@ desired_fields = [
     "FIGI"
 ]
 
-# Load symbols from file
 symbols = []
 with open("tradingview_all_stocks.csv", 'r', encoding='utf-8') as file:
     reader = csv.reader(file)
-    next(reader)  # Skip header
+    next(reader) 
     for row in reader:
         symbols.append(row[0])
 
 all_data = []
 
-for idx, symbol in enumerate(symbols[:50], 1):  # Change as needed
+for idx, symbol in enumerate(symbols[:50], 1):  
     url = f"https://www.tradingview.com/symbols/{symbol}/"
     driver.get(url)
     print(f"🔄 {idx}. Fetching {symbol} from {url}")
@@ -62,7 +59,6 @@ for idx, symbol in enumerate(symbols[:50], 1):  # Change as needed
     row_data["Symbol"] = symbol
 
     try:
-        # Wait for main financial blocks
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, "block-QCJM7wcY")))
         blocks = driver.find_elements(By.CLASS_NAME, "block-QCJM7wcY")
 
@@ -80,7 +76,6 @@ for idx, symbol in enumerate(symbols[:50], 1):  # Change as needed
             except Exception:
                 continue
 
-        # Scrape company profile info - usually in a different block, e.g. with "company-profile__info"
         try:
             profile_section = driver.find_element(By.CLASS_NAME, "company-profile__info")
 
